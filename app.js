@@ -41,7 +41,7 @@ async function fetchResults() {
     const resultsJson = await fetchResults();
     for (const object of resultsJson) {
         const resultObject = result.construct(object);
-        resultObject.getMember(members);
+        resultObject.matchMember(members);
         results.push(resultObject);
     }
 }
@@ -55,7 +55,7 @@ function displayMembers(members) {
     const html = /*html*/`
     <tr>
       <td>${member.name}</td>
-      <td>${member.active}</td>
+      <td>${activeString(member.active)}</td>
       <td>${member.birthday}</td>
       <td>${member.age}</td>
       <td>${member.group}</td>
@@ -73,7 +73,7 @@ function displayResults(results) {
       const html = /*html*/`
       <tr>
         <td>${result.date}</td>
-        <td>${result.member}</td>
+        <td>${result.member.name}</td>
         <td>${disciplineToDanish(result.discipline)}</td>
         <td>${trainingString(result.training)}</td>
         <td>${result.time}</td>
@@ -83,24 +83,31 @@ function displayResults(results) {
     }
   }
 
-  function trainingString(boolean){
-    if(boolean){
-        return "Træning";
-    } else{
-        return "Konkurrence"
-    }
+function trainingString(boolean){
+  if(boolean){
+      return "Træning";
+  } else{
+      return "Konkurrence"
   }
+}
 
 
-  function disciplineToDanish(discipline){
-    if(discipline === "breaststroke"){
-        return "Bryst"
-    } else if (discipline === "backstroke"){
-        return "Ryg"
-    } else{
-        //rest use same words in english and danish so translation is redundant
-        //so i just capitalize the first letter instead
-        return discipline.charAt(0).toUpperCase() + discipline.slice(1);
-    }
-  } 
+function disciplineToDanish(discipline){
+  if(discipline === "breaststroke"){
+      return "Bryst"
+  } else if (discipline === "backstroke"){
+      return "Ryg"
+  } else{
+      //rest use same words in english and danish so translation is redundant
+      //so i just capitalize the first letter instead
+      return discipline.charAt(0).toUpperCase() + discipline.slice(1);
+  }
+} 
 
+function activeString(boolean){
+  if(boolean === true){
+    return "Aktiv"
+  } else{
+    return "Passiv"
+  }
+}

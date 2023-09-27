@@ -4,7 +4,7 @@ function construct(resultData){
         _date: new Date(resultData.date),
         discipline: resultData.discipline,
         memberId: resultData.memberId,
-        member: undefined,
+        member: {name:"404"}, //placeholder in case no member exists with given ID
         resultType: resultData.resultType,
         _time: resultData.time,
         get date(){
@@ -19,10 +19,10 @@ function construct(resultData){
         set time(time){
             this._time = time;
         },
-        getMember(members){
+        matchMember(members){
             for (const member of members) {
                 if(member.id == this.memberId){
-                    this.member = member.name;
+                    this.member = member;
                 }
             }
           }
@@ -33,9 +33,19 @@ function construct(resultData){
           id: {
                 writable: false
               },
-            getMember:{
+            matchMember:{
+                enumerable: false
+            },
+            time:{
+                enumerable: false
+            },
+            training:{
+                enumerable: false
+            },
+            date:{
                 enumerable: false
             }
+            
         }
     );
 
